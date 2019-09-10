@@ -1,0 +1,33 @@
+Using ifconfig
+
+1. Set your IP address
+	
+	ifconfig eth0 192.168.1.5 netmask 255.255.255.0 up
+
+2. Set your default Gateway
+
+	route add default gw 192.168.1.1
+
+3. Set your DNS Server
+	
+	echo "nameserver 1.1.1.1" > /etc/resolv.conf
+
+4. Test by ping
+	
+	ping google.com
+
+Using ip and netplan
+
+1. Show your up
+
+	ip addr show
+
+2. Bring an interface up or down using ip
+	
+	ip link set eth1 up/down
+
+3. Showing your routing 
+
+	ip route show
+
+https://danielmiessler.com/study/manually-set-ip-linux/#ifconfig
