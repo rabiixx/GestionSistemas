@@ -1,4 +1,5 @@
 import json
+import os
 from urllib.request import urlopen
 
 def get_rates():
@@ -13,11 +14,13 @@ def convert(cantidad, de, a='EUR'):
 	else:
 		return float(rates[de] * cantidad)
 
-
-file = open("divisas.txt","r")
-(rates, fecha) = get_rates();
-ahorroTotal = 0.0
-
+os.system("clear")
+try: 
+	file = open("divisas.txt","r")
+	(rates, fecha) = get_rates();
+	ahorroTotal = 0.0
+except IOError:
+	print("El fichero divisas.txt no existe")
 
 for linea in file:
 	s = linea.rstrip();
