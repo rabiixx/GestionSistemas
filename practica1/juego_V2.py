@@ -5,16 +5,15 @@ import os
 ## Clase Jugador
 class Jugador(object):
 
-
-
-	def __init__(self, name, tipo, numPensado, numPropuesto, res):
+	def __init__(self, name, tipo, numPensado, numPropuesto, res, minNum, maxNum):
 		super(Jugador, self).__init__()
 		self.name = name
 		self.tipo = tipo
 		self.numPensado = numPensado
 		self.numPropuesto = numPropuesto 
 		self.res = res
-
+		self.minNum = minNum
+		self.maxNum = maxNum
 
 	#def pensarNumero(self):
 		#self.numPensado = int(input("[+] %s piense e introduzca un numero: " % self.name))
@@ -25,12 +24,14 @@ class Jugador(object):
 			return int(input("[+] %s introduzca un numero: " % self.name))
 		else:
 
-			if ( (res == 'Mayor') or (res == 'mayor') ):
-				self.numPropuesto = random.randint(self.numPropuesto, 10)
-			elif ( (res == 'Menor') or (res == 'menor') ):
-				self.numPropuesto = random.randint(1, self.numPropuesto)
-			else:
-				self.numPropuesto = random.randint(1, 10)
+			if ( (self.res == 'Mayor') or (self.res == 'mayor') ):
+				if (self.numPropuesto > self.minNum):
+					self.minNum = self.numPropuesto + 1
+			elif ( (self.res == 'Menor') or (self.res == 'menor') ):
+				if (self.numPropuesto < self.maxNum):
+					self.maxNum = self.numPropuesto - 1
+
+			self.numPropuesto = random.randint(self.minNum, self.maxNum)
 
 			print("El número que has pensado es el %d" %self.numPropuesto)
 
@@ -67,12 +68,13 @@ class Partida(object):
 		while (self.j2.comprNumero(self.j1.proponerNumero()) == False):
 			numIntentosJ1 += 1
 		
-		print("[+] ¡Buen trabajo, %s ¡Has adivinado mi número en %d intentos! Es tu turno." % (self.j1.name, self.numIntentosJ1))
+		print("[+] ¡Buen trabajo, %s ¡Has adivinado mi número en %d intentos! Es tu turno." % (self.j1.name, numIntentosJ1))
 
 		#self.j2.pensarNumero()
 		
-		while ( (self.j2.res != 'Correcto') or (self.j2.res != 'correcto')):
+		while ( (self.j2.res != 'Correcto') or (self.j2.res != 'correcto') ):
 			self.j2.res = self.j1.comprNumero(self.j2.proponerNumero())
+			print(self.j2.res)
 			numIntentosJ2 += 1
 		
 		print("[+] La partida ha finalizado.")
@@ -93,8 +95,8 @@ def main():
 	os.system("clear");
 	print("[+] Bienvenido")
 	name = str(input("\t[+] !Hola¡ ¿Como te llamas?: "))
-	j1 = Jugador(name, "Humano", 0, 0, ' ')
-	j2 = Jugador("BuggedBot", "Maquina", random.randint(1, 10), 0 , ' ')
+	j1 = Jugador(name, "Humano", 0, 0, ' ', 0, 10)
+	j2 = Jugador("BuggedBot", "Maquina", random.randint(1, 10), 0 , ' ', 0, 10)
 
 	# Evito pasar numero intentos por argumento pork el valor de ambos es de 0 al inicio
 	p = Partida(j1, j2)
