@@ -1,6 +1,14 @@
 
 import random
+import signal
+import sys
 import os
+
+def signal_handler(sig, frame):
+	
+	print("\n[+] Has pulsado CTR+C!, adios.")
+	sys.exit(0)
+	
 
 ## Clase Jugador
 class Jugador(object):
@@ -31,7 +39,10 @@ class Jugador(object):
 				if (self.numPropuesto < self.maxNum):
 					self.maxNum = self.numPropuesto - 1
 
-			self.numPropuesto = random.randint(self.minNum, self.maxNum)
+			try:
+				self.numPropuesto = random.randint(self.minNum, self.maxNum)
+			except ValueError:
+				print("Me estas vacilando o k rollo bollo.")
 
 			print("El número que has pensado es el %d" %self.numPropuesto)
 
@@ -48,7 +59,7 @@ class Jugador(object):
 				print("[+] %s Has acertado el numero!" % self.name)
 				return True
 		else:
-			return input("Mayor/Menor/Correcto?: ")
+			return str(input("Mayor/Menor/Correcto?: "))
 
 ## Clase Partida
 class Partida(object):
@@ -71,12 +82,22 @@ class Partida(object):
 		print("[+] ¡Buen trabajo, %s ¡Has adivinado mi número en %d intentos! Es tu turno." % (self.j1.name, numIntentosJ1))
 
 		#self.j2.pensarNumero()
-		
-		while ( (self.j2.res != 'Correcto') or (self.j2.res != 'correcto') ):
+		'''
+		while ( (self.j2.res != "Correcto") or (self.j2.res != "correcto") ):
 			self.j2.res = self.j1.comprNumero(self.j2.proponerNumero())
 			print(self.j2.res)
 			numIntentosJ2 += 1
-		
+
+		'''
+		self.j2.res = self.j1.comprNumero(self.j2.proponerNumero())
+		while (1):
+			if ( (self.j2.res == 'Correcto') or (self.j2.res == 'correcto') ):
+				break
+			self.j2.res = self.j1.comprNumero(self.j2.proponerNumero())
+			print(self.j2.res)
+			numIntentosJ2 += 1
+
+
 		print("[+] La partida ha finalizado.")
 		print("[+] Numero intentos: ")
 		print("\t- %s: %d" % (self.j1.name, numIntentosJ1))
@@ -87,30 +108,31 @@ class Partida(object):
 		elif (numIntentosJ1 < numIntentosJ2):
 			return input("[+] Tu ganas. Has acertado en %d intentos. Quieres seguir jugando? [S/N]: " % numIntentosJ1)
 		else: 
-			print("[+] Empate. Quieres seguir jugando? [S/N]: ")
+			return input("[+] Empate. Quieres seguir jugando? [S/N]: ")
 		
 
 def main():
 	
 	os.system("clear");
+
 	print("[+] Bienvenido")
 	name = str(input("\t[+] !Hola¡ ¿Como te llamas?: "))
 	j1 = Jugador(name, "Humano", 0, 0, ' ', 0, 10)
 	j2 = Jugador("BuggedBot", "Maquina", random.randint(1, 10), 0 , ' ', 0, 10)
 
-	# Evito pasar numero intentos por argumento pork el valor de ambos es de 0 al inicio
 	p = Partida(j1, j2)
-	p.jugar()
+	restart = p.jugar()
 
-	'''
-	while(p.jugar() == 'S'):
-		if(input("Deseas cambiarte de nombre? [S/N]: ") == 'S'):
+	while( restart.lower().startswith('s') ):
+		if ( input("Deseas cambiarte de nombre? [S/N]: ").lower().startswith('s') ):
 			name = input("Introduzca el nuevo nombre: ")
-			j1 = Jugador(name, "Humano", 0)
-			p.jugar()
+			j1 = Jugador(name, "Humano", 0, 0, ' ', 0, 10)
+			restart = p.jugar()
 		else:
-			p.jugar()
-	'''
+			restart = p.jugar()
 
 if __name__ == '__main__':
+	signal.signal(signal.SIGINT, signal_handler)
 	main()
+	
+
