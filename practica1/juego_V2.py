@@ -4,6 +4,8 @@ import signal
 import sys
 import os
 
+
+# Captura la señal SIGINT (CTR+C para los amigos)
 def signal_handler(sig, frame):
 	
 	print("\n[+] Has pulsado CTR+C!, adios.")
@@ -19,9 +21,9 @@ class Jugador(object):
 		self.tipo = tipo
 		self.numPensado = numPensado
 		self.numPropuesto = numPropuesto 
-		self.res = res
-		self.minNum = minNum
-		self.maxNum = maxNum
+		self.res = res 						# Almacena si el numero propuesto es mayor, menor o correcto
+		self.minNum = minNum				# Minimo corrrespondiente al intervalo de generacion de numero aleatorios
+		self.maxNum = maxNum				# Maximo corrrespondiente al intervalo de generacion de numero aleatorios
 
 	#def pensarNumero(self):
 		#self.numPensado = int(input("[+] %s piense e introduzca un numero: " % self.name))
@@ -31,7 +33,7 @@ class Jugador(object):
 		if(self.tipo == "Humano"):
 			return int(input("[+] %s introduzca un numero: " % self.name))
 		else:
-
+			# Acotacion del intervalo de generacion de numero aleatorios
 			if ( (self.res == 'Mayor') or (self.res == 'mayor') ):
 				if (self.numPropuesto > self.minNum):
 					self.minNum = self.numPropuesto + 1
@@ -42,7 +44,7 @@ class Jugador(object):
 			try:
 				self.numPropuesto = random.randint(self.minNum, self.maxNum)
 			except ValueError:
-				print("Me estas vacilando o k rollo bollo.")
+				print("[+] Te ha has equivocado.")
 
 			print("El número que has pensado es el %d" %self.numPropuesto)
 
@@ -59,8 +61,9 @@ class Jugador(object):
 				print("[+] %s Has acertado el numero!" % self.name)
 				return True
 		else:
-			return str(input("Mayor/Menor/Correcto?: "))
-
+			self.res = input("Mayor/Menor/Correcto?: ")
+			if (self.res == "Mayor")
+			
 ## Clase Partida
 class Partida(object):
 
@@ -94,7 +97,7 @@ class Partida(object):
 			if ( (self.j2.res == 'Correcto') or (self.j2.res == 'correcto') ):
 				break
 			self.j2.res = self.j1.comprNumero(self.j2.proponerNumero())
-			print(self.j2.res)
+			#print(self.j2.res)
 			numIntentosJ2 += 1
 
 
