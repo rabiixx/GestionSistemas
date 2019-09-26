@@ -4,21 +4,19 @@
 
 Version Python 3.X
 
+Version Python 2.X: da ciertos fallos de SyntaxError que estan directamente relacionados con caracteres no soportados por la version 2.X
+
 ## Compilacion
 
-Ejercutar
+* Ejercutar programa
 ```
 pyhton3 nombreprograma.py
 ```
-Eliminar divisas.txt
+* Ejercutar programa make
 ```
-make divisas
+make all
 ```
-Eliminar ahorros.txt
-```
-make ahorros
-```
-Eliminar divisas.txt y ahorros.txt
+* Borrar fichero historial.db
 ```
 make clean
 ```
@@ -33,6 +31,8 @@ es mayor o menor o correcto al numero propuesto por la maquina, el numero que ge
 * Se ha intentando ser limpio y evitar codigo repetido o innecesario, aun asi, nunca antes habia trabajado con python y puede que haya cosas innecesarias.
 
 * Se ha intentado seguir la estructura de clase, atributos y metodos propuesta en clase con el fin de facilitar la correcion, tal vez eso haya collaborado en que ciertas cosas resulten un tanto curisosas pero tienen su causa justificada.
+
+* Una vez finalizada la partida, se escribe en un fichero el nombre de cada jugador, asi como, el nuemero de intentos realizados por cada jugador.
 
 ## Autor
 

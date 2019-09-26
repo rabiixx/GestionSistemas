@@ -17,10 +17,10 @@ class Jugador(object):
 
 	def __init__(self, name, tipo, numPensado, numPropuesto, res, minNum, maxNum):
 		super(Jugador, self).__init__()
-		self.name = name
-		self.tipo = tipo
-		self.numPensado = numPensado
-		self.numPropuesto = numPropuesto 
+		self.name = name 					# Nombre del jugador
+		self.tipo = tipo					# Tipo de jugador: Humano/Maquina
+		self.numPensado = numPensado		# Numero pensado por el jugador
+		self.numPropuesto = numPropuesto 	# Numero propuesto por el jugador
 		self.res = res 						# Almacena si el numero propuesto es mayor, menor o correcto
 		self.minNum = minNum				# Minimo corrrespondiente al intervalo de generacion de numero aleatorios
 		self.maxNum = maxNum				# Maximo corrrespondiente al intervalo de generacion de numero aleatorios
@@ -34,10 +34,10 @@ class Jugador(object):
 			return int(input("[+] %s introduzca un numero: " % self.name))
 		else:
 			# Acotacion del intervalo de generacion de numero aleatorios
-			if ( (self.res == 'Mayor') or (self.res == 'mayor') ):
+			if ( self.res.lower() == 'mayor' ):
 				if (self.numPropuesto > self.minNum):
 					self.minNum = self.numPropuesto + 1
-			elif ( (self.res == 'Menor') or (self.res == 'menor') ):
+			elif ( self.res.lower() == 'menor' ):
 				if (self.numPropuesto < self.maxNum):
 					self.maxNum = self.numPropuesto - 1
 
@@ -61,9 +61,15 @@ class Jugador(object):
 				print("[+] %s Has acertado el numero!" % self.name)
 				return True
 		else:
-			self.res = input("Mayor/Menor/Correcto?: ")
-			if (self.res == "Mayor")
-			
+			return input("Mayor/Menor/Correcto?: ")
+			'''
+			if (self.res.lower() == "mayor"):
+				return False
+			elif (self.res.lower() == "mayor"):
+				return False	
+			else True
+			'''
+
 ## Clase Partida
 class Partida(object):
 
@@ -85,23 +91,17 @@ class Partida(object):
 		print("[+] ¡Buen trabajo, %s ¡Has adivinado mi número en %d intentos! Es tu turno." % (self.j1.name, numIntentosJ1))
 
 		#self.j2.pensarNumero()
-		'''
-		while ( (self.j2.res != "Correcto") or (self.j2.res != "correcto") ):
+		
+		while ( (self.j2.res.lower() != "correcto") ):
 			self.j2.res = self.j1.comprNumero(self.j2.proponerNumero())
-			print(self.j2.res)
 			numIntentosJ2 += 1
-
-		'''
-		self.j2.res = self.j1.comprNumero(self.j2.proponerNumero())
-		while (1):
-			if ( (self.j2.res == 'Correcto') or (self.j2.res == 'correcto') ):
-				break
-			self.j2.res = self.j1.comprNumero(self.j2.proponerNumero())
-			#print(self.j2.res)
-			numIntentosJ2 += 1
-
 
 		print("[+] La partida ha finalizado.")
+
+		file = open("historial.db", "a")
+		file.write('{}: {} - {}: {}\n'.format(self.j1.name, numIntentosJ1, self.j2.name, numIntentosJ2) )
+		file.close()
+
 		print("[+] Numero intentos: ")
 		print("\t- %s: %d" % (self.j1.name, numIntentosJ1))
 		print("\t- Yo: %d\n" %numIntentosJ2)
