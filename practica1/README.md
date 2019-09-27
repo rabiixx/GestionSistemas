@@ -34,6 +34,8 @@ es mayor o menor o correcto al numero propuesto por la maquina, el numero que ge
 
 * Una vez finalizada la partida, se escribe en un fichero el nombre de cada jugador, asi como, el nuemero de intentos realizados por cada jugador.
 
+* Cada nueva partida se genera una nueva semilla para que el numero propuesto por el bot no sea el mismo
+
 ## Autor
 
 * **Ruben Cherif Narvaez** - 99rubenche@gmail.com - [rabiixx](https://github.com/rabiixx)
