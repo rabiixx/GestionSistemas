@@ -1,5 +1,6 @@
 all:
-	python3 juego.py
+	python3 juego
+.py
 
 historial:
 	@- rm -f -v historial.db
