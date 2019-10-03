@@ -10,15 +10,17 @@ Ejercutar
 ```
 pyhton3 nombreprograma.py
 ```
+o
+```
+make all
+```
+
 Eliminar divisas.txt
 ```
 make divisas
 ```
-Eliminar ahorros.txt
-```
-make ahorros
-```
-Eliminar divisas.txt y ahorros.txt
+o 
+
 ```
 make clean
 ```
@@ -30,6 +32,16 @@ make clean
 * En el caso del fichero divisas.txt es extrictamente necesario para la correcta ejecucion del programa, por ello, si el fichero no existe se captura el error y se avisa de que el fichero.txt no existe.
 
 * Se ha intentando ser limpio y evitar codigo repetido o innecesario, aun asi, nunca antes habia trabajado con python y puede que haya cosas innecesarias.
+
+* Se han añadido un interfaz de linea de comandos haciendo uso del paquete [Click](https://click.palletsprojects.com/en/7.x/). Las opciones del programa pueden	ser consultadas mediante:
+```
+python3 moneyExachange.py --help
+```
+Las siguiente opciones han sido añadidas:
+  --ifilename TEXT  Name of the input file.
+  --ofilename TEXT  Name of the output file.
+  --borrar INTEGER  Clears the output file.
+  --help            Show this message and exit.
 
 ## Autor
 

@@ -9,12 +9,11 @@ def get_rates():
 	data = json.loads(response.read())
 	return [data['rates'], data['date']]
 
-def convert(cantidad, de, a='EUR'):
+def convert(rates, cantidad, de, a='EUR'):
 	if(de == 'EUR'):
 		return cantidad
 	else:
 		return float(rates[de] * cantidad)
-
 
 
 @click.command()
@@ -23,24 +22,24 @@ def convert(cantidad, de, a='EUR'):
 @click.option('--borrar', default = 0, help='Clears the output file.')
 
 
-
 def main(ifilename, ofilename, borrar):
 
 	os.system("clear")
-	#try: 
-	file = open(str(ifilename), "r")
-	(rates, fecha) = get_rates();
-	ahorroTotal = 0.0
-	#except IOError:
-	print("El fichero divisas.txt no existe")
-
+	try: 
+		file = open(str(ifilename), "r")
+		(rates, fecha) = get_rates();
+		ahorroTotal = 0.0
+	except IOError:
+		print("El fichero divisas.txt no existe")
+		sys.exit(0)
+		
 	for linea in file:
 		s = linea.rstrip();
 		s = s.split(', ')
-		ahorroTotal += float(convert(float(s[1]), s[0]))
+		ahorroTotal += float(convert(rates, float(s[1]), s[0]))
 
 	file.close()
-	if (clear == 1):
+	if (borrar == 1):
 		file2 = open(ofilename, "w")
 	else:
 		file2 = open(ofilename, "a")
@@ -51,4 +50,3 @@ def main(ifilename, ofilename, borrar):
 
 if __name__ == "__main__":
 	main()
-fbhdsf
