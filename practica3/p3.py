@@ -11,7 +11,7 @@ que devuelva solo el registro correspondiente a la clave primaria
 
 Instalar librerias: setting/project/project interpreter
 '''
-'''
+
 import sqlite3 
 from flask import Flask
 
@@ -24,31 +24,35 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
 	return "hello world"
-		'''
+
 
 	# Acceso base de datos
 	def db_quey(query):
 		# Nos conectamos a la base de datos
-		conn = sqlite3.connect(app.config['db'])
+		#conn = sqlite3.connect(app.config['db'])
 		# Creamos objeto cursor
 		c = conn.cursor()
 		# Se realiza la consulta indicada por el usuario
 		c.execute(query)
+
+
 		# Obtenemos resultados
 		res = c.fetchall()
+		json.dumps(res)
+
 		#Mostramos resultados
-		for fila in res:
-			print(res)
+		#for fila in res:
+			#print(res)
 		# Se cierra conexion con base de datos
 		conn.close()
 
 	@app.route("/")
 	@app.route("/tablas")
 	def tablas():
-		query = ("*selec....")	
+		query = ("SELECT * FROM USER_TABLES")	
 		res = db.query(query)
 		return json.dumps(res)
-
+'''
 	@app.route("/")
 	@app.route("/tablas/<arg>")
 	def tablas():
@@ -63,7 +67,7 @@ def hello():
 		query = ("*selec....")	
 		res = db.query(query)
 		return json.dumps(res)
-
+'''
 
 if __name__ == "__main__":
 	app.run()

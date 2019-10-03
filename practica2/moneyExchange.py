@@ -2,6 +2,7 @@ import json
 import os
 from urllib.request import urlopen
 import click
+import sys
 
 def get_rates():
 	api_url = 'https://api.exchangeratesapi.io/latest'
@@ -19,18 +20,18 @@ def convert(rates, cantidad, de, a='EUR'):
 @click.command()
 @click.option('--ifilename', prompt='Input file', help='Name of the input file.')
 @click.option('--ofilename', prompt='Output file', help='Name of the output file.')
-@click.option('--borrar', default = 0, help='Clears the output file.')
+@click.option('--borrar', default = 0, help='Truncates the output file.')
 
 
 def main(ifilename, ofilename, borrar):
 
-	os.system("clear")
+	os.system("clear")	# Disponible en linux
 	try: 
 		file = open(str(ifilename), "r")
 		(rates, fecha) = get_rates();
 		ahorroTotal = 0.0
 	except IOError:
-		print("El fichero divisas.txt no existe")
+		print("[+] El fichero divisas.txt no existe.")
 		sys.exit(0)
 		
 	for linea in file:
