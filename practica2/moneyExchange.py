@@ -1,6 +1,7 @@
 import json
 import os
 from urllib.request import urlopen
+import click
 
 def get_rates():
 	api_url = 'https://api.exchangeratesapi.io/latest'
@@ -14,21 +15,40 @@ def convert(cantidad, de, a='EUR'):
 	else:
 		return float(rates[de] * cantidad)
 
-os.system("clear")
-try: 
-	file = open("divisas.txt","r")
+
+
+@click.command()
+@click.option('--ifilename', prompt='Input file', help='Name of the input file.')
+@click.option('--ofilename', prompt='Output file', help='Name of the output file.')
+@click.option('--borrar', default = 0, help='Clears the output file.')
+
+
+
+def main(ifilename, ofilename, borrar):
+
+	os.system("clear")
+	#try: 
+	file = open(str(ifilename), "r")
 	(rates, fecha) = get_rates();
 	ahorroTotal = 0.0
-except IOError:
+	#except IOError:
 	print("El fichero divisas.txt no existe")
 
-for linea in file:
-	s = linea.rstrip();
-	s = s.split(', ')
-	ahorroTotal += float(convert(float(s[1]), s[0]))
+	for linea in file:
+		s = linea.rstrip();
+		s = s.split(', ')
+		ahorroTotal += float(convert(float(s[1]), s[0]))
 
-file.close()
+	file.close()
+	if (clear == 1):
+		file2 = open(ofilename, "w")
+	else:
+		file2 = open(ofilename, "a")
 
-file2 = open("ahorros.txt", "a")
-file2.write('{}, {}\n'.format(fecha, ahorroTotal))
-file2.close()
+	file2.write('{}, {}\n'.format(fecha, ahorroTotal))
+	file2.close()
+
+
+if __name__ == "__main__":
+	main()
+
