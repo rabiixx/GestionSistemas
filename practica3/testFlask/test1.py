@@ -1,0 +1,24 @@
+'''
+from flask import Flask, escape, request
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    name = request.args.get("name", "World")
+    return f'Hello, {escape(name)}!'
+
+if __name__ == "__main__":
+	app.run()
+
+	'''
+
+from werkzeug.wrappers import Request, Response
+
+@Request.application
+def application(request):
+    return Response("Hello, World!")
+
+if __name__ == "__main__":
+    from werkzeug.serving import run_simple
+    run_simple("localhost", 5000, application)
