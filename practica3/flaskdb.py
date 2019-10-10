@@ -1,6 +1,7 @@
 import sqlite3 
 from flask import Flask, render_template
 import json
+from json2html import *
 
 app = Flask(__name__)
 
@@ -13,38 +14,37 @@ def about():
 	return render_template("about.html")
 
 @app.route("/tablas/")
-def query1(tabla):
+def query1():
 	conn = sqlite3.connect("ejemplo.db") 
 	c = conn.cursor() 
-	query  = "select * from sqlite_master where type='table';"
+	query  = "SELECT name FROM sqlite_master WHERE TYPE = 'table'"
 	c.execute(query)
 	res = c.fetchall()
-	return json.dumps(res)
+	jsonfile = json.dumps(res)
+	
+	return json2html.convert(json = jsonfile)
 
-@app.route("(tablas/<tabla>/")
+@app.route("/tablas/<tabla>")
 def query2(tabla):
 	conn = sqlite3.connect("ejemplo.db") 
 	c = conn.cursor() 
 	query  = "SELECT * FROM " + str(tabla)
-	print(query)
-	#query = "SELECT * FROM Clientes"
 	c.execute(query)
 	res = c.fetchall()
-	return json.dumps(res)
-	#return render_template("tablas.html")
+	jsonfile = json.dumps(res)
+	return json2html.convert(json = jsonfile)
 
-@app.route("(tablas/<tabla>/<campo>")
+@app.route("/tablas/<tabla>/<campo>")
 def query3(tabla, campo):
 	conn = sqlite3.connect("ejemplo.db") 
 	c = conn.cursor() 
 	query  = "SELECT " + campo + " FROM " + tabla
-	print(query)
-	#query = "SELECT * FROM Clientes"
 	c.execute(query)
 	res = c.fetchall()
-	return json.dumps(res)
+	jsonfile = json.dumps(res)
+	return json2html.convert(json = jsonfile)
 	#return render_template("tablas.html")
-'''
+
 if __name__ == "__main__":
 	app.run()
 
