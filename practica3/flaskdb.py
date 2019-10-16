@@ -24,18 +24,19 @@ def query1():
 	
 	return json2html.convert(json = jsonfile)
 
-@app.route("/tablas/<tabla>")
-def query2(tabla):
+@app.route("/tablas/<nombre_de_tabla>/")
+def query2(nombre_de_tabla):
 	conn = sqlite3.connect("ejemplo.db") 
 	c = conn.cursor() 
-	query  = "SELECT * FROM " + str(tabla)
+	query = "SELECT group_concat(name,' | ') from pragma_table_info("nombre_de_tabla")"
+	#query  = "SELECT * FROM " + str(nombre_de_tabla)
 	c.execute(query)
 	res = c.fetchall()
 	jsonfile = json.dumps(res)
 	return json2html.convert(json = jsonfile)
 
-@app.route("/tablas/<tabla>/<campo>")
-def query3(tabla, campo):
+@app.route("/tablas/<nombre_de_tabla>/info")
+def query3(nombre_de_tabla):
 	conn = sqlite3.connect("ejemplo.db") 
 	c = conn.cursor() 
 	query  = "SELECT " + campo + " FROM " + tabla
