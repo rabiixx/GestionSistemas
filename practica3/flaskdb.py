@@ -32,19 +32,11 @@ def query2(nombre_de_tabla):
 	#query  = "SELECT * FROM " + str(nombre_de_tabla)
 	c.execute(query)
 	res = c.fetchall()
-	print(res)
-	print("\n----------------------------------------------------------------------\n")
+
 	jsonfile = json.dumps(res)
-	print(jsonfile)
-	print("\n----------------------------------------------------------------------\n")
+	
 	item_dict = json.loads(jsonfile)
-	print(item_dict)
-	print("\n----------------------------------------------------------------------\n")
-	print(item_dict[1])
-	print("\n----------------------------------------------------------------------\n")
-	for x in item_dict[0]:
-		print(x)
-	print("\n----------------------------------------------------------------------\n")
+	
 	return json2html.convert(json = jsonfile)
 
 @app.route("/tablas/<nombre_de_tabla>/info/")
@@ -52,23 +44,24 @@ def query3(nombre_de_tabla):
 	conn = sqlite3.connect("ejemplo.db") 
 	c = conn.cursor() 
 	
-	query1 = "SELECT group_concat(name, ' | ') FROM  pragma_table_info('" + nombre_de_tabla + "')"
-	query2 = "SELECT COUNT (*) FROM '"+ nombre_de_tabla + "'"
-	
+	query1 = "SELECT * FROM " + str(nombre_de_tabla)
 	c.execute(query1)
 	res = c.fetchall()
-	print(res)
-	print(res[0])
-	print(res[4])
-	jsonfile1 = json.dumps(res)
-	print(jsonfile1)
+	lineas = len(res)
+	columnas = len(res[0])
+	num_reg = lineas * columnas
 
+	
+	query2 = "SELECT group_concat(name, ' | ') FROM  pragma_table_info('" + nombre_de_tabla + "')"
 	c.execute(query2)
 	res = c.fetchall()
-	jsonfile2 = json.dumps(res)
+	
+	aux = "[("+ res + "Numero de registros: " + str(num_reg) + ")]"
 
-	return json2html.convert(json = jsonfile1) + ( json2html.convert(json = jsonfile2))
-	#return render_template("tablas.html")
+	jsonfile1+ = json.dumps(aux)
+	return json2html.convert(json = jsonfile1)
+	#retu rn json2html.convert(json = jsonfile2)
+	#return json2html.convert(json = jsonfile1) + ( json2html.convert(json = jsonfile2))
 
 if __name__ == "__main__":
 	app.run()
