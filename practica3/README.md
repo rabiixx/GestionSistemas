@@ -22,17 +22,10 @@ pyhton3 nombreprograma.py
 
 ## Informacion
 
-* Indice Web App 
-* /
-* ├── /about
-* └── /tablas
-*      └── /<nombretabla>
-*            └── /<nombrecampo>
-
 * About: muestra una breve descripcion sobre la aplicacion web
 * /tablas: muestra el nombre de las tablas de la base de datos
 * /tablas/nombretabla: muestra todos los campos de una tabla
-* /tablas/nombretabla/nombrecampo: muestra un campo de una tabla
+* /tablas/nombretabla/info: muestra el numero de registros de la tabla
 
 * Se han añadido alguna platilla html con la intencion de merorar el aspecto visual. Dichas plantillas se encuentran en el directorio templates(html) asi como static/css(css).
 

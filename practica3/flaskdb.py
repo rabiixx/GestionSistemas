@@ -29,13 +29,10 @@ def query2(nombre_de_tabla):
 	conn = sqlite3.connect("ejemplo.db") 
 	c = conn.cursor() 
 	query = "SELECT * from '" + nombre_de_tabla + "'"
-	#query  = "SELECT * FROM " + str(nombre_de_tabla)
 	c.execute(query)
 	res = c.fetchall()
 
-	jsonfile = json.dumps(res)
-	
-	item_dict = json.loads(jsonfile)
+	jsonfile = json.dumps(res)	
 	
 	return json2html.convert(json = jsonfile)
 
@@ -44,24 +41,24 @@ def query3(nombre_de_tabla):
 	conn = sqlite3.connect("ejemplo.db") 
 	c = conn.cursor() 
 	
-	query1 = "SELECT * FROM " + str(nombre_de_tabla)
+	query1 = "SELECT * FROM '" + str(nombre_de_tabla) + "'"
 	c.execute(query1)
 	res = c.fetchall()
+	
 	lineas = len(res)
 	columnas = len(res[0])
 	num_reg = lineas * columnas
-
 	
 	query2 = "SELECT group_concat(name, ' | ') FROM  pragma_table_info('" + nombre_de_tabla + "')"
 	c.execute(query2)
 	res = c.fetchall()
 	
-	aux = "[("+ res + "Numero de registros: " + str(num_reg) + ")]"
+	aux1 = "Numero de registros: " + str(num_reg)
+	aux2 = "Numero de lineas: " + str(lineas)
+	aux3 = "Numero de columnas: " + str(columnas)
+	jsonfile = json.dumps(res)
 
-	jsonfile1+ = json.dumps(aux)
-	return json2html.convert(json = jsonfile1)
-	#retu rn json2html.convert(json = jsonfile2)
-	#return json2html.convert(json = jsonfile1) + ( json2html.convert(json = jsonfile2))
+	return (json2html.convert(json = aux1)) + (json2html.convert(json = aux2)) + (json2html.convert(json = aux3)) + json2html.convert(json = jsonfile)  
 
 if __name__ == "__main__":
 	app.run()
