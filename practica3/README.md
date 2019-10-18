@@ -17,7 +17,7 @@ pip install json2html
 
 Ejercutar
 ```
-pyhton3 nombreprograma.py
+pyhton3 flaskdb.py
 ```
 
 ## Informacion
